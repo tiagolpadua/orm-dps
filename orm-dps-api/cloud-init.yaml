@@ -16,20 +16,18 @@ packages:
   - [nodejs, 16]
 
 runcmd:
-  # Instala o frontend
-  - [git, -C, /var/www, clone, https://github.com/tiagolpadua/doguito-site.git]
-  - [rm, -rf, /var/www/html]
-  - [mv, /var/www/doguito-site-orm, /var/www/html]
-
-  # Instala o backend
-  - [wget, https://objectstorage.us-phoenix-1.oraclecloud.com/n/axnv3l8jdswe/b/site/o/Wallet_doguitodb.zip, -P, /usr/lib/oracle/21/client64/lib/network/admin/]
-  - [sudo, sh, -c, 'cd /usr/lib/oracle/21/client64/lib/network/admin/ && unzip -B Wallet_*.zip']
-  - [wget, https://objectstorage.us-phoenix-1.oraclecloud.com/n/axnv3l8jdswe/b/site/o/doguito-api.service, -p, /lib/systemd/system]
+  # Instala a api
   - [git, -C, /home/opc, clone, https://github.com/tiagolpadua/doguito-api.git]
   - [bash, -c, 'cd /home/opc/doguito-api && npm install']
-  - [firewall-offline-cmd, --add-service=https]
+
+  - [wget, https://objectstorage.us-phoenix-1.oraclecloud.com/n/axnv3l8jdswe/b/site/o/Wallet_doguitodb.zip, -P, /usr/lib/oracle/21/client64/lib/network/admin/]
+  - [sudo, sh, -c, 'cd /usr/lib/oracle/21/client64/lib/network/admin/ && unzip -B Wallet_*.zip']
+  
+  - [wget, https://objectstorage.us-phoenix-1.oraclecloud.com/n/axnv3l8jdswe/b/site/o/doguito-api.service, -p, /lib/systemd/system]
+
   - [firewall-offline-cmd, --add-service=http]
   - [firewall-offline-cmd, --add-port=3000]
+
   - [systemctl, daemon-reload]
   - [systemctl, enable, doguito-api.service ]
   - [systemctl, start, doguito-api.service ]

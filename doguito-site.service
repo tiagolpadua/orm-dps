@@ -3,7 +3,7 @@
 # https://nodesource.com/blog/running-your-node-js-app-with-systemd-part-1/
 
 [Unit]
-Description=Doguito API Service
+Description=Doguito Site Service
 After=network.target
 
 [Service]
@@ -12,7 +12,7 @@ Environment="DB_PASSWORD=Doguito12345"
 Environment="CONNECT_STRING=doguitodb_high"
 Type=simple
 User=opc
-ExecStart=/usr/bin/node /home/opc/doguito-api/bin/www
+ExecStart=/usr/bin/node /home/opc/doguito-site-orm/bin/www
 Restart=on-failure
 
 [Install]

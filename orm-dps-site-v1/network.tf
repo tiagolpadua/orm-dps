@@ -64,4 +64,14 @@ ingress_security_rules {
       max = 22
     }
   }
+
+  ingress_security_rules {
+    protocol = "6"
+    source   = "0.0.0.0/0"
+
+    tcp_options {
+      min = 3000
+      max = 3000
+    }
+  }
 }

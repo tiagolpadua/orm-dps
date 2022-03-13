@@ -1,0 +1,26 @@
+#cloud-config
+yum_repos:
+    epel-testing:
+        baseurl: https://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/$basearch/
+        enabled: true
+        failovermethod: priority
+        gpgcheck: true
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+        name: EPEL ($basearch)
+
+packages:
+  - git
+  - nodejs
+
+runcmd:
+  - [git, -C, /home/opc, clone, https://github.com/tiagolpadua/doguito-site-orm.git]
+  - [bash, -c, 'cd /home/opc/doguito-site-orm && npm install']
+
+  - [wget, https://objectstorage.us-phoenix-1.oraclecloud.com/n/axnv3l8jdswe/b/internal/o/doguito-site.service, -P, /lib/systemd/system]
+
+  - [systemctl, daemon-reload]
+  - [systemctl, enable, doguito-site.service ]
+  - [systemctl, start, doguito-site.service ]
+
+  - [firewall-offline-cmd, --add-port=3000/tcp]
+  - [systemctl, restart, firewalld]
