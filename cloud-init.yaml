@@ -10,9 +10,12 @@ yum_repos:
 
 packages:
   - httpd
+  - git
 
 runcmd:
-  - [sh, -c, echo "<html>Web Server IP `hostname --ip-address`</html>" > /var/www/html/index.html]
+  - [git, -C, /var/www, clone, https://github.com/tiagolpadua/doguito-site-orm.git]
+  - [rm, -rf, /var/www/html]
+  - [mv, /var/www/doguito-site-orm, /var/www/html]
   - [firewall-offline-cmd, --add-service=https]
   - [firewall-offline-cmd, --add-service=http]
   - [systemctl, enable, httpd]
