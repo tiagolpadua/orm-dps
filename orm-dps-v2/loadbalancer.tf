@@ -1,6 +1,6 @@
 resource "oci_load_balancer" Load_Balancer {
   compartment_id = var.compartment_ocid
-  display_name = "Demo-Web-LB"
+  display_name = "DPS-LB"
   shape          = "flexible"
   subnet_ids = [
     oci_core_subnet.subnet.id,
@@ -26,22 +26,22 @@ resource "oci_load_balancer_backend_set" web-servers-backend {
   name             = "web-servers-backend"
   policy           = "ROUND_ROBIN"
 }
-resource "oci_load_balancer_backend" site-01 {
+resource "oci_load_balancer_backend" dps-server-01 {
   backendset_name  = oci_load_balancer_backend_set.web-servers-backend.name
   backup           = "false"
   drain            = "false"
   load_balancer_id = oci_load_balancer.Load_Balancer.id
-  ip_address       = oci_core_instance.site-01.private_ip
+  ip_address       = oci_core_instance.dps-server-01.private_ip
   offline          = "false"
   port             = "3000"
   weight           = "1"
 }
-resource "oci_load_balancer_backend" site-02 {
+resource "oci_load_balancer_backend" dps-server-02 {
   backendset_name  = oci_load_balancer_backend_set.web-servers-backend.name
   backup           = "false"
   drain            = "false"
   load_balancer_id = oci_load_balancer.Load_Balancer.id
-  ip_address       = oci_core_instance.site-02.private_ip
+  ip_address       = oci_core_instance.dps-server-02.private_ip
   offline          = "false"
   port             = "3000"
   weight           = "1"

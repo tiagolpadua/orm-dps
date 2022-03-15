@@ -3,10 +3,10 @@ data "template_file" "user_data" {
   template = file("cloud-init.yaml")
 }
 
-resource "oci_core_instance" "site-01" {
+resource "oci_core_instance" "dps-server-01" {
   availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[var.AD -1]["name"]
   compartment_id      = var.compartment_ocid
-  display_name        = "site-01"
+  display_name        = "dps-server-01"
   shape               = var.instance_shape
 
   create_vnic_details {
@@ -26,10 +26,10 @@ resource "oci_core_instance" "site-01" {
 
 }
 
-resource "oci_core_instance" "site-02" {
+resource "oci_core_instance" "dps-server-02" {
   availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[var.AD -1]["name"]
   compartment_id      = var.compartment_ocid
-  display_name        = "site-02"
+  display_name        = "dps-server-02"
   shape               = var.instance_shape
 
   create_vnic_details {
